@@ -20,8 +20,9 @@ import pytesseract
 savedmodel = pickle.load(open('nb.pkl','rb'))
 tfidfconverter = pickle.load(open('tf01.pkl', 'rb'))
 labelencoder = pickle.load(open('le.pkl', 'rb'))
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-UPLOAD_FOLDER = r'Data\\ '
+UPLOAD_FOLDER = os.getcwd()
 
 # initialzing flask app
 app = Flask(__name__)
@@ -31,7 +32,7 @@ def extractTextFromPDF(pdf_location):
     text = ""
     pdfs = glob.glob(pdf_location)
     for pdf_path in pdfs:
-        pages = convert_from_path(pdf_path, 500, poppler_path = r'Data\\poppler-0.68.0\\bin')
+        pages = convert_from_path(pdf_path, 500, poppler_path = r'C:\Program Files\poppler-0.68.0\bin'
 
         for pageNum,imgBlob in enumerate(pages):
             text_per_page = pytesseract.image_to_string(imgBlob, lang='eng')
